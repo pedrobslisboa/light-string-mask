@@ -5,9 +5,21 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
+  "changelogPreset": {
+    "name": "conventionalcommits",
+    "types": [
+      { "type": "feat", "section": "Features" },
+      { "type": "fix", "section": "Bug Fixes" },
+      { "type": "refactor", "section": "Code Refactoring" },
+      { "type": "revert", "section": "Reverts" },
+      { "type": "chore", "section": "Miscellaneous Chores", "hidden": true },
+      { "type": "docs", "section": "Documentation", "hidden": true },
+      { "type": "test", "section": "Tests", "hidden": true }
+    ]
+  },
   "command": {
     "version": {
-      "message": "chore: Release"
+      "message": "chore: release"
     }
   }
 }

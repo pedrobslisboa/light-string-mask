@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "lerna run dev",
     "build": "lerna run --parallel build",
-    "app:build": "lerna run --scope={@project/utils,@project/app} build",
-    "app:start": "lerna run --scope @project/app start",
-    "pretify": "prettier --write ."
+    "pretify": "prettier --write .",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
+    "@commitlint/cli": "^17.3.0",
     "babel-jest": "^26.1.0",
     "babel-plugin-module-resolver": "4.0.0",
     "jest": "^26.1.0",

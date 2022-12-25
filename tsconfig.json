@@ -1,35 +1,38 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "module": "esnext",
+    "target": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "noEmit": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "target": "es5",
-    "downlevelIteration": true,
-    "lib": ["dom", "es2017"],
+    "declaration": true,
     "strict": true,
-    "paths": {
-      "@project/ui": ["../ui/src"],
-      "@project/ui/*": ["../ui/src/*"],
-      "@project/utils": ["../utils/src"],
-      "@project/utils/*": ["../utils/src/*"]
-    }
-  }
+    "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
+    "strictNullChecks": true /* Enable strict null checks. */,
+    "strictFunctionTypes": true /* Enable strict checking of function types. */,
+    "noUnusedLocals": true /* Report errors on unused locals. */,
+    "noUnusedParameters": true /* Report errors on unused parameters. */,
+    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
+    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "types": [
+      "node",
+      "jest"
+    ],
+    "lib": [
+      "ES6",
+      "DOM"
+    ]
+  },
+  "include": [
+    "packages/mask-string/src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ]
 }
+
