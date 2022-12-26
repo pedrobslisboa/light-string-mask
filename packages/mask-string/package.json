@@ -1,0 +1,47 @@
+{
+  "name": "@pedrobslisboa/js-string-mask",
+  "version": "0.0.0",
+  "description": "A light vanilla javascript string mask tool",
+  "author": "Pedro B S Lisboa <pedrobslisboa@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pedrobslisboa/light-string-mask.git",
+    "directory": "packages/mask-string"
+  },
+  "license": "MIT",
+  "keywords": [
+    "string-mask",
+    "mask",
+    "javascript"
+  ],
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write src/",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
+    "clean": "rm -rf dist build package",
+    "ts-node": "ts-node",
+    "docs": "typedoc --entryPoints src/main.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.26",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
+    "jest": "27.0.0",
+    "prettier": "^2.8.1",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

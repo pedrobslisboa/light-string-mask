@@ -49,12 +49,12 @@ jobs:
       - name: Graduation
         continue-on-error: true
         id: graduation
-        run: yarn release --create-release github --conventional-graduate
+        run: yarn lerna publish --include-merged-tags --conventional-graduate --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         if: ${{ steps.graduation.outcome == 'failure'  }}
-        run: yarn release --create-release github
+        run: yarn lerna publish --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
