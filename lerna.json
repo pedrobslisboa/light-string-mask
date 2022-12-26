@@ -19,6 +19,8 @@
   },
   "command": {
     "version": {
+      "conventionalCommits": true,
+      "ignoreChanges": ["**/*.md", "**/*.test.js"],
       "message": "chore: release"
     }
   }
