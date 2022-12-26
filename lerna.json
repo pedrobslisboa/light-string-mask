@@ -3,6 +3,7 @@
     "packages/*"
   ],
   "npmClient": "yarn",
+  "useNx": true,
   "useWorkspaces": true,
   "version": "independent",
   "changelogPreset": {
@@ -19,9 +20,17 @@
   },
   "command": {
     "version": {
+      "private": false,
       "conventionalCommits": true,
       "ignoreChanges": ["**/*.md", "**/*.test.js"],
       "message": "chore: release"
     }
+  },
+  "publish": {
+    "verifyAccess": false
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

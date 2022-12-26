@@ -1,14 +1,15 @@
 {
-  "name": "@project/workspace",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run dev",
+    "lint": "lerna run lint",
     "build": "lerna run --parallel build",
-    "pretify": "prettier --write .",
-    "test": "lerna run test"
+    "format": "prettier --write .",
+    "release": "lerna publish -y",
+    "test": "lerna run test",
+    "test-coverage": "lerna run test-coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -17,7 +18,7 @@
     "babel-plugin-module-resolver": "4.0.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "jest": "^26.1.0",
-    "lerna": "3.22.1",
+    "lerna": "6.0.3",
     "prettier": "^2.0.5",
     "tsconfig-paths": "3.9.0",
     "typescript": "3.9.5"
