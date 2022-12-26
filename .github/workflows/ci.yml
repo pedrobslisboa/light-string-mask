@@ -27,11 +27,8 @@ jobs:
       - name: Build packages
         run: yarn build
 
-      - name: Lint CSS code
-        run: yarn lint-css
-
       - name: Lint JavaScript code
-        run: yarn lint-js
+        run: yarn lint
 
-      - name: Run unit tests and code coverage
+      - name: Run unit test coverage
         run: yarn test-coverage

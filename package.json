@@ -5,10 +5,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run dev",
+    "lint": "lerna run lint",
     "build": "lerna run --parallel build",
-    "pretify": "prettier --write .",
-    "test": "lerna run test"
+    "format": "prettier --write .",
+    "test": "lerna run test",
+    "test-coverage": "lerna run test-coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
