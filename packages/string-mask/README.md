@@ -1,6 +1,10 @@
 # @mask/string
 
-A light vanilla string mask library.
+A light weight string mask library for JavaScript.
+
+## Badges
+
+![](https://badgen.net/bundlephobia/minzip/@pedrobslisboa/js-string-mask?scale=1.3)
 
 ## Table of contents
 
