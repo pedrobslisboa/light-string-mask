@@ -6,7 +6,7 @@ on:
     paths:
       - 'packages/**'
       - '!packages/**/*.test.js'
-      - '!packages/**/*.md'
+      - '**/*.md'
 
 jobs:
   release:
