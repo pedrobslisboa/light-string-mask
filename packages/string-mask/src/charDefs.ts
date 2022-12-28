@@ -28,6 +28,6 @@ export class FixedDef implements Def {
   }
 
   public get unmasked(): string {
-    return "";
+    return '';
   }
 }

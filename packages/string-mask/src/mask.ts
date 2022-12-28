@@ -1,5 +1,5 @@
-import { InputDef, FixedDef, Def } from "./charDefs";
-import { reverseStr } from "./utils/reverseString";
+import { InputDef, FixedDef, Def } from './charDefs';
+import { reverseStr } from './utils/reverseString';
 
 const tokens: {
   [key: string]: {
@@ -7,59 +7,63 @@ const tokens: {
     pattern: RegExp | null;
   };
 } = {
-  "0": {
-    type: "Number",
+  '0': {
+    type: 'Number',
     pattern: /\d/,
   },
   A: {
-    type: "Letter",
+    type: 'Letter',
     pattern: /[a-zA-Z]/,
   },
   S: {
-    type: "Alphanumeric",
+    type: 'Alphanumeric',
     pattern: /[a-zA-Z0-9]/,
   },
-  "*": {
-    type: "Any",
+  '*': {
+    type: 'Any',
     pattern: null,
   },
-  "[": {
-    type: "InitRecursive",
+  '[': {
+    type: 'InitRecursive',
     pattern: null,
   },
-  "]": {
-    type: "EndRecursive",
+  ']': {
+    type: 'EndRecursive',
     pattern: null,
   },
-  "{": {
-    type: "InitOptional",
+  '{': {
+    type: 'InitOptional',
     pattern: null,
   },
-  "}": {
-    type: "EndOptional",
+  '}': {
+    type: 'EndOptional',
     pattern: null,
   },
   $: {
-    type: "Escape",
+    type: 'Escape',
     pattern: null,
   },
 };
 
 type MaskedValue = {
-  masked: string;
-  unmasked: string;
+  maskedValue: string;
+  unmaskedValue: string;
 };
 
 interface IStringMask {
-  options: Options;
+  readonly maskedValue: string;
+  readonly unmaskedValue: string;
+  readonly options: Options;
 
   apply(
     value: string,
     options?: {
       onProcessFixedChar?: () => void;
       onProcessInputChar?: () => void;
-    }
+    },
   ): MaskedValue;
+
+  updateOptions(options: Options): MaskedValue;
 }
 
 type Options = {
@@ -83,7 +87,7 @@ class StringMask implements IStringMask {
       reverse?: boolean;
       onProcessFixedChar?: (char: string) => void;
       onProcessInputChar?: (char: string, index: number) => void;
-    }
+    },
   ): Array<Def> => {
     let valuePos = 0;
     const { reverse, mask } = options;
@@ -91,9 +95,9 @@ class StringMask implements IStringMask {
     let isOptional = false;
 
     const value = reverse ? reverseStr(strValue) : strValue;
-    const maskChars = reverse ? reverseStr(mask).split("") : mask.split("");
-    const initRecursiveChar = reverse ? tokens["]"].type : tokens["["].type;
-    const endRecursiveChar = reverse ? tokens["["].type : tokens["]"].type;
+    const maskChars = reverse ? reverseStr(mask).split('') : mask.split('');
+    const initRecursiveChar = reverse ? tokens[']'].type : tokens['['].type;
+    const endRecursiveChar = reverse ? tokens['['].type : tokens[']'].type;
 
     for (let i = 0; i < mask.length; i++) {
       if (valuePos >= value.length) {
@@ -101,9 +105,9 @@ class StringMask implements IStringMask {
       }
 
       switch (tokens[maskChars[i]]?.type) {
-        case "Number":
-        case "Alphanumeric":
-        case "Letter": {
+        case 'Number':
+        case 'Alphanumeric':
+        case 'Letter': {
           if (tokens[maskChars[i]].pattern?.test(value[valuePos])) {
             processedChars.push(new InputDef(value[valuePos]));
 
@@ -133,7 +137,7 @@ class StringMask implements IStringMask {
 
           break;
         }
-        case "Any": {
+        case 'Any': {
           processedChars.push(new InputDef(value[valuePos]));
 
           if (options.onProcessInputChar) {
@@ -144,7 +148,7 @@ class StringMask implements IStringMask {
 
           break;
         }
-        case "Escape": {
+        case 'Escape': {
           processedChars.push(new FixedDef(maskChars[i + 1]));
 
           if (options.onProcessFixedChar) {
@@ -157,14 +161,14 @@ class StringMask implements IStringMask {
         case initRecursiveChar: {
           const recursiveMask = maskChars.slice(
             i + 1,
-            maskChars.indexOf(endRecursiveChar)
+            maskChars.indexOf(endRecursiveChar),
           );
 
           while (valuePos < value.length) {
             const recursiveValue = value.slice(valuePos);
 
             const recursiveProcessedChars = this.process(recursiveValue, {
-              mask: recursiveMask.join(""),
+              mask: recursiveMask.join(''),
               onProcessInputChar: (char) => {
                 if (options.onProcessInputChar) {
                   options.onProcessInputChar(char, valuePos);
@@ -185,14 +189,18 @@ class StringMask implements IStringMask {
           break;
         }
 
-        case "InitOptional":
-        case "EndOptional": {
+        case 'InitOptional':
+        case 'EndOptional': {
           isOptional = !isOptional;
 
           break;
         }
 
         default: {
+          if (isOptional && maskChars[i] !== value[valuePos]) {
+            break;
+          }
+
           if (maskChars[i] === value[valuePos]) {
             if (options.onProcessInputChar) {
               options.onProcessInputChar(value[valuePos], valuePos);
@@ -218,7 +226,7 @@ class StringMask implements IStringMask {
     options?: {
       onProcessFixedChar?: (char: string) => void;
       onProcessInputChar?: (char: string, index: number) => void;
-    }
+    },
   ): MaskedValue {
     const processedChars = this.process(value, {
       ...this.options,
@@ -228,17 +236,17 @@ class StringMask implements IStringMask {
     this.processedChars = processedChars;
 
     return {
-      masked: processedChars.map((char) => char.masked).join(""),
-      unmasked: processedChars.map((char) => char.unmasked).join(""),
+      maskedValue: processedChars.map((char) => char.masked).join(''),
+      unmaskedValue: processedChars.map((char) => char.unmasked).join(''),
     };
   }
 
-  public get value() {
-    return this.processedChars.map((char) => char.masked).join("");
+  public get maskedValue() {
+    return this.processedChars.map((char) => char.masked).join('');
   }
 
   public get unmaskedValue() {
-    return this.processedChars.map((char) => char.unmasked).join("");
+    return this.processedChars.map((char) => char.unmasked).join('');
   }
 
   public get options() {
@@ -249,17 +257,17 @@ class StringMask implements IStringMask {
     this._options = { ...this._options, ...options };
 
     const processedChars = this.process(
-      this.processedChars.map((char) => char.masked).join(""),
+      this.processedChars.map((char) => char.masked).join(''),
       {
         ...this._options,
-      }
+      },
     );
 
     this.processedChars = processedChars;
 
     return {
-      masked: this.value,
-      unmasked: this.unmaskedValue,
+      maskedValue: this.maskedValue,
+      unmaskedValue: this.unmaskedValue,
     };
   }
 }

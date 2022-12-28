@@ -1,1 +1,1 @@
-export { default } from "./mask";
+export { default } from './mask';

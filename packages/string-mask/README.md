@@ -40,16 +40,16 @@ yarn add @pedrobslisboa/string-mask
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const phoneMaskedValues = new StringMask('+55 (00) 00000-0000');
+const phoneMaskedValues = new StringMask({mask: '+55 (00) 00000-0000');
 phoneMaskedValues.apply('11999999999');
 
-console.log(phoneMaskedValues.value); // +55 (11) 99999-9999
+console.log(phoneMaskedValues.maskedValue); // +55 (11) 99999-9999
 console.log(phoneMaskedValues.unmaskedValue); // 11999999999
 
 // You can also pass a string with the mask
 phoneMaskedValues.apply('+55 (11) 99999-9999');
 
-console.log(phoneMaskedValues.value); // +55 (11) 99999-9999
+console.log(phoneMaskedValues.maskedValue); // +55 (11) 99999-9999
 console.log(phoneMaskedValues.unmaskedValue); // 11999999999
 ```
 
@@ -76,38 +76,54 @@ Use recursive groups to repeat a group of tokens; use this pattern at the end of
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const priceMask = new StringMask('[.000],00', { reverse: true });
+const priceMask = new StringMask({ mask: '[.000],00', reverse: true });
 
 // The mask will be applied from right to left
 // the recursive group will be applied until the end of the string
 // So, the result will be 1.234.567,89.
 // Mapped to mask:      [   1][.234][.567],89
 //                      [.000][.000][.000],00
-const maskedPrice = priceMask.apply('123456789');
+priceMask.apply('123456789');
 
-console.log(maskedPrice); // 1.234.567,89
+console.log(maskedPrice.maskedValue); // 1.234.567,89
 ```
 
 ## Api
 
-- StringMask
-  - `constructor(options?: MaskOptions)`
-    - `options?: MaskOptions`
-      - `mask: string`
-      - `reverse?: boolean`
-  - `apply(value: string): MaskedValue`
-  - `unmasked: string`
-  - `value: string`
-  - `changeOptions(options: Partial<MaskOptions>): void`
+```typescript
+type MaskedValue = {
+  maskedValue: string;
+  unmaskedValue: string;
+};
 
-| Method          | Description                    |
-| --------------- | ------------------------------ |
-| `apply`         | Apply the mask to a string     |
-| `unmasked`      | The unmasked value             |
-| `value`         | The masked value               |
-| `changeOptions` | Change the options of the mask |
+interface IStringMask {
+  // The masked value
+  readonly maskedValue: string;
+  // The unmasked value
+  readonly unmaskedValue: string;
 
-### Options
+  // The options used to create the mask
+  readonly options: Options;
+
+  // Apply the mask to a string
+  apply(
+    value: string,
+    options?: {
+      onProcessFixedChar?: () => void;
+      onProcessInputChar?: () => void;
+    },
+  ): MaskedValue;
+
+  // Change the options of the mask
+  updateOptions(options: Options): MaskedValue;
+}
+```
+
+### Constructor
+
+```typescript
+constructor(options?: Options);
+```
 
 | Option    | Description                     | Default |
 | --------- | ------------------------------- | ------- |
@@ -121,10 +137,10 @@ console.log(maskedPrice); // 1.234.567,89
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const phoneMaskedValues = new StringMask('+55 (00) 00000-0000');
+const phoneMaskedValues = new StringMask({ mask: '+55 (00) 00000-0000' });
 phoneMaskedValues.apply('11999999999');
 
-console.log(phoneMaskedValues.value); // +55 (11) 99999-9999
+console.log(phoneMaskedValues.maskedValue); // +55 (11) 99999-9999
 ```
 
 ### CPF mask
@@ -132,10 +148,10 @@ console.log(phoneMaskedValues.value); // +55 (11) 99999-9999
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const cpfMaskedValues = new StringMask('000.000.000-00');
+const cpfMaskedValues = new StringMask({ mask: '000.000.000-00' });
 cpfMaskedValues.apply('12345678909');
 
-console.log(cpfMaskedValues.value); // 123.456.789-09
+console.log(cpfMaskedValues.maskedValue); // 123.456.789-09
 ```
 
 ### Price mask
@@ -143,10 +159,10 @@ console.log(cpfMaskedValues.value); // 123.456.789-09
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const priceMask = new StringMask('[.000],00', { reverse: true });
+const priceMask = new StringMask({ mask: '[.000],00', reverse: true });
 priceMask.apply('123456789');
 
-console.log(priceMask); // 1.234.567,89
+console.log(priceMask.maskedValue); // 1.234.567,89
 ```
 
 ### Date mask
@@ -154,10 +170,10 @@ console.log(priceMask); // 1.234.567,89
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const dateMask = new StringMask('00/00/0000');
+const dateMask = new StringMask({ mask: '00/00/0000' });
 dateMask.apply('01012021');
 
-console.log(dateMask); // 01/01/2021
+console.log(dateMask.maskedValue); // 01/01/2021
 ```
 
 ### Credit card mask
@@ -165,10 +181,10 @@ console.log(dateMask); // 01/01/2021
 ```js
 import StringMask from '@pedrobslisboa/string-mask';
 
-const creditCardMask = new StringMask('0000 0000 0000 0000');
+const creditCardMask = new StringMask({ mask: '0000 0000 0000 0000' });
 creditCardMask.apply('1234567890123456');
 
-console.log(creditCardMask); // 1234 5678 9012 3456
+console.log(creditCardMask.maskedValue); // 1234 5678 9012 3456
 ```
 
 ## License
