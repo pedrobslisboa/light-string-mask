@@ -1,6 +1,6 @@
 {
   "name": "@pedrobslisboa/js-string-mask",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A light vanilla javascript string mask tool",
   "author": "Pedro B S Lisboa <pedrobslisboa@gmail.com>",
   "repository": {
